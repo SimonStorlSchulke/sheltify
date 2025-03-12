@@ -30,7 +30,9 @@
         "article-section.row-start",
         "article-section.section-start",
         "article-section.text-with-image-section",
-        "article-section.text"
+        "article-section.text",
+        "article-section.html",
+        "article-section.counter"
       ]
     }
   }

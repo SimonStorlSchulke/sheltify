@@ -33,7 +33,9 @@
         "article-section.section-start",
         "article-section.text-with-image-section",
         "article-section.text",
-        "article-section.paypal-button"
+        "article-section.paypal-button",
+        "article-section.html",
+        "article-section.counter"
       ],
       "required": true
     }

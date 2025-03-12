@@ -32,7 +32,10 @@
         "article-section.button-link",
         "article-section.row-start",
         "article-section.section-start",
-        "article-section.paypal-button"
+        "article-section.paypal-button",
+        "article-section.html",
+        "article-section.counter",
+        "article-section.news-cards"
       ],
       "required": true
     }
