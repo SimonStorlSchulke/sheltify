@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_article_section_htmls",
+  "info": {
+    "displayName": "html",
+    "icon": "code",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "html": {
+      "type": "text"
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein",
+      "required": true
+    }
+  }
+}

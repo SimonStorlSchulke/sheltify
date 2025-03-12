@@ -1,0 +1,36 @@
+<div class="container sui p-3">
+  <h1 class="title">Einloggen</h1>
+
+  <div class="sui flex-y gap-3">
+    <div class="sui form-field">
+      <label class="label">Email</label>
+      <div class="sui has-icons-left has-icons-right">
+        <input #emailInput class="input" type="email" placeholder="Email input">
+        <span class="icon is-small is-left">
+      <i class="fas fa-envelope"></i>
+    </span>
+        <span class="icon is-small is-right">
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+      </div>
+    </div>
+
+    <div class="sui form-field">
+      <label>Passwort</label>
+      <div class="sui form-control has-icons-left has-icons-right">
+        <input #passwordInput class="input" type="password" placeholder="Email input">
+        <span class="icon is-small is-left">
+      <i class="fas fa-envelope"></i>
+    </span>
+        <span class="icon is-small is-right">
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+      </div>
+    </div>
+
+    <div>
+     <button (click)="onLogin(emailInput.value, passwordInput.value)" class="button primary">login</button>
+    </div>
+  </div>
+</div>
+

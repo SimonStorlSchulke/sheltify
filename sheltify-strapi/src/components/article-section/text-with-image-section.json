@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_article_section_text_with_image_sections",
+  "info": {
+    "displayName": " Text mit Bild(ern) oder Video",
+    "icon": "picture",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "blocks"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "imagePosition": {
+      "type": "enumeration",
+      "enum": [
+        "oben",
+        "rechts",
+        "links",
+        "unten"
+      ],
+      "default": "rechts",
+      "required": true
+    },
+    "gallery": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein"
+    }
+  }
+}

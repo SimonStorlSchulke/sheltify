@@ -1,0 +1,8 @@
+<h1>Tier editieren</h1>
+
+@if(animal$ | async; as animal) {
+  <app-text-input name="d" label="Name" [value]="animal.data.name"/>
+} @else {
+  404 Tier nicht gefunden
+}
+

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_article_section_paypal_buttons",
+  "info": {
+    "displayName": "paypal-button",
+    "icon": "handHeart"
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein",
+      "required": true
+    }
+  }
+}

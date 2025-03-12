@@ -1,0 +1,109 @@
+{
+  "kind": "collectionType",
+  "collectionName": "animals",
+  "info": {
+    "singularName": "animal",
+    "pluralName": "animals",
+    "displayName": "Tier",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true,
+    "populateCreatorFields": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "male",
+        "female",
+        "other"
+      ],
+      "required": true
+    },
+    "birthday": {
+      "type": "date"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "animal_article": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::animal-article.animal-article",
+      "inversedBy": "animals"
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 280
+    },
+    "emergency": {
+      "type": "boolean",
+      "default": false
+    },
+    "shoulderHeightCm": {
+      "type": "integer"
+    },
+    "castrated": {
+      "type": "boolean"
+    },
+    "animalKind": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::animal-kind.animal-kind",
+      "inversedBy": "animals"
+    },
+    "diseases": {
+      "type": "string"
+    },
+    "tolerating": {
+      "type": "string"
+    },
+    "suitedFor": {
+      "type": "string"
+    },
+    "paten": {
+      "type": "string"
+    },
+    "whereInGermany": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "integer",
+      "default": 0,
+      "required": true
+    },
+    "weightKg": {
+      "type": "decimal"
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "in-spaichingen",
+        "in-rumänien",
+        "vermittlungshilfe",
+        "zuhause-gefunden",
+        "vermisst",
+        "fundtier"
+      ],
+      "default": "in-spaichingen"
+    },
+    "race": {
+      "type": "string"
+    },
+    "freeRoamer": {
+      "type": "boolean"
+    }
+  }
+}

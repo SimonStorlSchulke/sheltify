@@ -1,0 +1,32 @@
+@use "colors" as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  &:focus-within {
+    label {
+      color: $primary;
+    }
+  }
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+input, textarea {
+  border-radius: 5px;
+  padding: 0.5rem;
+  //border: 2px solid $primary;
+  background-color: #fff;
+  transition: background-color 0.3s;
+  border: 2px solid #aaa;
+
+  &:focus {
+    background-color: $primary-h10;
+    outline: none;
+    border: 2px solid $primary;
+  }
+}

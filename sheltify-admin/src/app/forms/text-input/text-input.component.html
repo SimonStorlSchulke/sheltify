@@ -1,0 +1,7 @@
+<label [for]="name()">{{label()}}</label>
+
+@if(long()) {
+  <textarea [id]="name()" [name]="name()" type="text" [value]="value()"></textarea>
+} @else {
+  <input [id]="name()" [name]="name()" type="text" [value]="value()">
+}

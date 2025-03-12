@@ -1,0 +1,41 @@
+{
+  "kind": "singleType",
+  "collectionName": "conveys",
+  "info": {
+    "singularName": "convey",
+    "pluralName": "conveys",
+    "displayName": "Vermittlung",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true,
+    "populateCreatorFields": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.animal-cards",
+        "article-section.button-link",
+        "article-section.hero",
+        "article-section.image",
+        "article-section.news-cards",
+        "article-section.row-start",
+        "article-section.section-start",
+        "article-section.text-with-image-section",
+        "article-section.text",
+        "article-section.paypal-button"
+      ],
+      "required": true
+    }
+  }
+}

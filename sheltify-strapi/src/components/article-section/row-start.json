@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_article_section_row_starts",
+  "info": {
+    "displayName": "Spalten",
+    "description": "",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "columns": {
+      "type": "integer",
+      "max": 4,
+      "min": 1,
+      "default": 3
+    },
+    "textCentered": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein"
+    }
+  }
+}

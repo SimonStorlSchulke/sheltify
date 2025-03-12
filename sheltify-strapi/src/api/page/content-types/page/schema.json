@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Seiten",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "required": false
+    },
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.animal-cards",
+        "article-section.button-link",
+        "article-section.counter",
+        "article-section.hero",
+        "article-section.image",
+        "article-section.news-cards",
+        "article-section.paypal-button",
+        "article-section.row-start",
+        "article-section.section-start",
+        "article-section.text-with-image-section",
+        "article-section.text",
+        "article-section.html"
+      ]
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "kind": "singleType",
+  "collectionName": "contact_pages",
+  "info": {
+    "singularName": "contact-page",
+    "pluralName": "contact-pages",
+    "displayName": "Kontakt",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true,
+    "populateCreatorFields": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.animal-cards",
+        "article-section.button-link",
+        "article-section.hero",
+        "article-section.image",
+        "article-section.row-start",
+        "article-section.text-with-image-section",
+        "article-section.text",
+        "article-section.section-start",
+        "article-section.paypal-button"
+      ]
+    },
+    "mail": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "hero": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

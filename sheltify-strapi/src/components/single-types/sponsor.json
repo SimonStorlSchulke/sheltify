@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_single_types_sponsors",
+  "info": {
+    "displayName": "sponsor"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "icon": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": false
+    }
+  }
+}

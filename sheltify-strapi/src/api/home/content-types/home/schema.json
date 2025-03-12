@@ -1,0 +1,42 @@
+{
+  "kind": "singleType",
+  "collectionName": "homes",
+  "info": {
+    "singularName": "home",
+    "pluralName": "homes",
+    "displayName": "Startseite",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.text-with-image-section",
+        "article-section.text",
+        "article-section.image",
+        "article-section.hero",
+        "article-section.animal-cards",
+        "article-section.button-link",
+        "article-section.row-start",
+        "article-section.section-start",
+        "article-section.news-cards",
+        "article-section.paypal-button",
+        "article-section.counter",
+        "article-section.html"
+      ],
+      "required": true
+    },
+    "hero": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

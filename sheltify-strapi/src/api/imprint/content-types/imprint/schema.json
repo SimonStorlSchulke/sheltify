@@ -1,0 +1,23 @@
+{
+  "kind": "singleType",
+  "collectionName": "imprints",
+  "info": {
+    "singularName": "imprint",
+    "pluralName": "imprints",
+    "displayName": "Impressum",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true,
+    "populateCreatorFields": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.text"
+      ]
+    }
+  }
+}

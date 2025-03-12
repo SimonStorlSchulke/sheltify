@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_article_section_section_starts",
+  "info": {
+    "displayName": "Abschnitts-Beginn",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein"
+    }
+  }
+}

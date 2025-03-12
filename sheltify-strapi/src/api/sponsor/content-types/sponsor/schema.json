@@ -1,0 +1,37 @@
+{
+  "kind": "singleType",
+  "collectionName": "sponsors",
+  "info": {
+    "singularName": "sponsor",
+    "pluralName": "sponsors",
+    "displayName": "sponsoren",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true,
+    "populateCreatorFields": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sponsors": {
+      "type": "dynamiczone",
+      "components": [
+        "single-types.sponsor"
+      ]
+    },
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.button-link",
+        "article-section.hero",
+        "article-section.image",
+        "article-section.news-cards",
+        "article-section.paypal-button",
+        "article-section.row-start",
+        "article-section.section-start",
+        "article-section.text-with-image-section",
+        "article-section.text"
+      ]
+    }
+  }
+}

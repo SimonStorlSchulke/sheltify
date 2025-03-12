@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_article_section_heroes",
+  "info": {
+    "displayName": "Bild über ganze Breite",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "hero": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

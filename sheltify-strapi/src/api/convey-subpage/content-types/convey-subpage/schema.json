@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "convey_subpages",
+  "info": {
+    "singularName": "convey-subpage",
+    "pluralName": "convey-subpages",
+    "displayName": "Unterseiten Vermittlung",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true,
+    "populateCreatorFields": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.animal-cards",
+        "article-section.button-link",
+        "article-section.hero",
+        "article-section.image",
+        "article-section.news-cards",
+        "article-section.row-start",
+        "article-section.section-start",
+        "article-section.text-with-image-section",
+        "article-section.text",
+        "article-section.paypal-button"
+      ]
+    },
+    "urlName": {
+      "type": "string",
+      "regex": "^[a-z-]+$",
+      "required": true
+    }
+  }
+}

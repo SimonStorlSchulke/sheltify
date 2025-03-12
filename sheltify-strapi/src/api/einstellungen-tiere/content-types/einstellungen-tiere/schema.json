@@ -1,0 +1,40 @@
+{
+  "kind": "singleType",
+  "collectionName": "einstellungen_tieres",
+  "info": {
+    "singularName": "einstellungen-tiere",
+    "pluralName": "einstellungen-tieres",
+    "displayName": "Einstellungen Tiere",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "imageLost": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageHomeFound": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imageFound": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

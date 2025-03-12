@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_article_section_texts",
+  "info": {
+    "displayName": " Text",
+    "description": "",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "blocks"
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein"
+    }
+  }
+}

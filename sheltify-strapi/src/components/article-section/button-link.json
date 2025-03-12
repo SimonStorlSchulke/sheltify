@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_article_section_button_links",
+  "info": {
+    "displayName": "buttonLink",
+    "icon": "exit",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "link": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "primary",
+        "secondary",
+        "call-to-action"
+      ],
+      "default": "primary",
+      "required": true
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_article_section_news_cards",
+  "info": {
+    "displayName": "NewsCards",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "news",
+        "blog"
+      ]
+    },
+    "amount": {
+      "type": "integer",
+      "required": true,
+      "default": 3,
+      "max": 20,
+      "min": 1
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "singleType",
+  "collectionName": "dogs_pages",
+  "info": {
+    "singularName": "dogs-page",
+    "pluralName": "dogs-pages",
+    "displayName": "Hunde",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true,
+    "populateCreatorFields": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "article": {
+      "type": "dynamiczone",
+      "components": [
+        "article-section.animal-cards",
+        "article-section.button-link",
+        "article-section.hero",
+        "article-section.image",
+        "article-section.row-start",
+        "article-section.text-with-image-section",
+        "article-section.text",
+        "article-section.section-start",
+        "article-section.paypal-button"
+      ]
+    }
+  }
+}

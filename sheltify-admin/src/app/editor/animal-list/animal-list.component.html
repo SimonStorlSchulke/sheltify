@@ -1,0 +1,18 @@
+<div class="sui flex-x">
+  <h1>Animals</h1>
+  <div class="sui grow-1"></div>
+  <button>Neues Tier</button>
+
+</div>
+
+
+<div class="animals sui flex-x wrap">
+  @if ($animals | async; as animals) {
+    @for (animal of animals.results; track $index) {
+      <a [routerLink]="'/tiere/' + animal.documentId" class="entry sui flex-x ai-center gap-4">
+        <img [src]="animal.thumbnail | strapiMedia : 'thumbnail'">
+        <span>{{ animal.name }}</span>
+      </a>
+    }
+  }
+</div>

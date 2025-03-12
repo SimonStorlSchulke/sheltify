@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_article_section_animal_cards",
+  "info": {
+    "displayName": "Tier-Karten",
+    "description": "",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "animals": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::animal.animal"
+    },
+    "queryFilter": {
+      "type": "string"
+    },
+    "filteredAmount": {
+      "type": "integer"
+    },
+    "text": {
+      "type": "blocks"
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "nein",
+        "grün",
+        "beige"
+      ],
+      "default": "nein"
+    }
+  }
+}

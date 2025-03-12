@@ -1,0 +1,17 @@
+@use "colors" as *;
+
+.animals {
+
+  .entry {
+    background: $neutral100;
+    padding: 12px;
+
+    img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid $primary;
+    }
+  }
+}
