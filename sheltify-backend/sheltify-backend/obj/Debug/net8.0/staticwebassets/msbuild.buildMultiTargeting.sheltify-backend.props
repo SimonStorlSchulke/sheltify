@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/sheltify-backend.props" />
+</Project>

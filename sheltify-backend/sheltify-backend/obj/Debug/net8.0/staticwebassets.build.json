@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "afZ2ThsD3us1BMWgggxklDYlqwG2AJDrY0h+T9Gqnlo=",
+  "Source": "sheltify-backend",
+  "BasePath": "_content/sheltify-backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
