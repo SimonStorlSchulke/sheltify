@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("sheltify-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff9d5916a298ae5cd560bd5dd1a4071798a8d88d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b3764b96b96973663dd17bbc0640f20ddb36e6cd")]
 [assembly: System.Reflection.AssemblyProductAttribute("sheltify-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("sheltify-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

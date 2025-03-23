@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace sheltify_backend.Controllers;
 
-public class AnimalController : Controller
+[ApiController]
+[Route("api/v1/animals")]
+public class AnimalController : ControllerBase
 {
-    // GET
-    public IActionResult Index()
+    [HttpGet("/all")]
+    public string GetAnimals()
     {
-        return View();
+        return "All animals";
     }
 }
