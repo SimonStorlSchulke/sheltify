@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"gopkg.in/gographics/imagick.v3/imagick"
 )
@@ -32,15 +33,48 @@ func main() {
 	imagick.Initialize()
 	defer imagick.Terminate()
 
-	// Process the image
-	err := generateResizedImages(inputPath)
-	if err != nil {
-		log.Fatalf("Failed to generate images: %v", err)
+	// Create output directory if not exists
+	outputDir := "output"
+	if err := os.MkdirAll(outputDir, 0755); err != nil {
+		log.Fatalf("Failed to create output directory: %v", err)
 	}
+
+	// Get base name of input file
+	baseName := filepath.Base(inputPath)
+	ext := filepath.Ext(baseName)
+	name := baseName[0 : len(baseName)-len(ext)]
+
+	mw := imagick.NewMagickWand()
+	err := mw.ReadImage(inputPath)
+	if err != nil {
+		log.Fatalf("Failed to read input image: %v", err)
+	}
+	origWidth := mw.GetImageWidth()
+	origHeight := mw.GetImageHeight()
+	aspectRatio := float64(origHeight) / float64(origWidth)
+	mw.Destroy()
+
+	// Use a WaitGroup to wait for all Goroutines to finish
+	var wg sync.WaitGroup
+	for label, width := range sizes {
+		if origWidth < width {
+			continue
+		}
+		wg.Add(1)
+		go func(label string, width uint) {
+			defer wg.Done()
+			if err := processImage(inputPath, outputDir, name, label, width, aspectRatio); err != nil {
+				log.Printf("Error processing %s: %v\n", label, err)
+			}
+		}(label, width)
+	}
+
+	// Wait for all Goroutines to finish
+	wg.Wait()
 	fmt.Println("Image processing completed successfully.")
 }
 
-func generateResizedImages(inputPath string) error {
+func processImage(inputPath, outputDir, name, label string, width uint, aspectRatio float64) error {
 	mw := imagick.NewMagickWand()
 	defer mw.Destroy()
 
@@ -50,47 +84,26 @@ func generateResizedImages(inputPath string) error {
 		return fmt.Errorf("failed to read image: %w", err)
 	}
 
-	// Get input image base name
-	baseName := filepath.Base(inputPath)
-	ext := filepath.Ext(baseName)
-	name := baseName[0 : len(baseName)-len(ext)]
-	outputDir := "output"
+	height := uint(float64(width) * aspectRatio)
 
-	// Create output directory if it doesn't exist
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
-		return fmt.Errorf("failed to create output directory: %w", err)
+	err = mw.ResizeImage(width, height, imagick.FILTER_LANCZOS)
+	if err != nil {
+		return fmt.Errorf("failed to resize image to %s: %w", label, err)
 	}
 
-	// Get original aspect ratio
-	origWidth := mw.GetImageWidth()
-	origHeight := mw.GetImageHeight()
-	aspectRatio := float64(origHeight) / float64(origWidth)
+	// Set format to WebP
+	mw.SetImageFormat("webp")
+	mw.SetOption("webp:lossless", "false") // Ensure lossy compression
+	mw.SetOption("webp:method", "6")       // Compression method (0-6, higher = better)
+	mw.SetOption("webp:alpha-quality", "75")
+	mw.SetImageCompressionQuality(75)
 
-	// Resize and save images
-	for label, width := range sizes {
-		height := uint(float64(width) * aspectRatio)
-
-		// Clone image wand for resizing
-		resized := mw.Clone()
-		err := resized.ResizeImage(width, height, imagick.FILTER_LANCZOS)
-		if err != nil {
-			resized.Destroy()
-			return fmt.Errorf("failed to resize image to %s: %w", label, err)
-		}
-
-		// Set format to WebP
-		resized.SetImageFormat("webp")
-
-		// Save output file
-		outputPath := filepath.Join(outputDir, fmt.Sprintf("%s_%s.webp", name, label))
-		err = resized.WriteImage(outputPath)
-		resized.Destroy()
-
-		if err != nil {
-			return fmt.Errorf("failed to save %s image: %w", label, err)
-		}
-		fmt.Printf("Saved: %s\n", outputPath)
+	outputPath := filepath.Join(outputDir, fmt.Sprintf("%s_%s.webp", name, label))
+	err = mw.WriteImage(outputPath)
+	if err != nil {
+		return fmt.Errorf("failed to save %s image: %w", label, err)
 	}
 
+	fmt.Printf("Saved: %s\n", outputPath)
 	return nil
 }

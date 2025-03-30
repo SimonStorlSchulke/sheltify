@@ -1,0 +1,20 @@
+meta {
+  name: get all animals
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:3000/api/animals
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Kevin",
+    "gender": "Male",
+    "castrated": true,
+    "birthday": "2023-03-29T15:04:05Z"
+  }
+}
