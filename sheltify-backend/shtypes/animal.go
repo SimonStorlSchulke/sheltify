@@ -16,10 +16,14 @@ const (
 
 type Animal struct {
 	gorm.Model
-	Name      string    `json:"name"`
-	Birthday  time.Time `json:"birthday,omitempty"`
-	Castrated bool      `json:"castrated"`
-	Gender    Gender    `json:"gender"`
+	Name            string         `json:"name"`
+	Birthday        time.Time      `json:"birthday,omitempty"`
+	Castrated       bool           `json:"castrated"`
+	Gender          Gender         `json:"gender"`
+	AnimalArticleID *uint          `json:"animalArticleID"`
+	AnimalArticle   *AnimalArticle `json:"animalArticle"`
+	TenantID        string         `json:"tenantID"`
+	Tenant          *Tenant        `json:"tenant"`
 }
 
 func (a Animal) Validate() error {

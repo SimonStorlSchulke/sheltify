@@ -6,7 +6,7 @@ import (
 	"sheltify-new-backend/shtypes"
 )
 
-func PostValidatable[K shtypes.Validatable](w http.ResponseWriter, r *http.Request) *K {
+func validateRequestBody[K shtypes.Validatable](w http.ResponseWriter, r *http.Request) *K {
 	var content K
 
 	if err := json.NewDecoder(r.Body).Decode(&content); err != nil {
@@ -20,8 +20,6 @@ func PostValidatable[K shtypes.Validatable](w http.ResponseWriter, r *http.Reque
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(content)
 
 	return &content
 }

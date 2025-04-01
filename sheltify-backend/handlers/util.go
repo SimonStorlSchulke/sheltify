@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -10,7 +10,6 @@ import (
 )
 
 func idFromParameter(w http.ResponseWriter, r *http.Request) (int, error) {
-	fmt.Println("id: ", chi.URLParam(r, "id"))
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 
 	if err != nil {
@@ -20,8 +19,38 @@ func idFromParameter(w http.ResponseWriter, r *http.Request) (int, error) {
 	return id, nil
 }
 
-func writeJson(w http.ResponseWriter, r *http.Request, content any) {
+func tenantFromParameter(w http.ResponseWriter, r *http.Request) (string, error) {
+	tenant := chi.URLParam(r, "tenant")
+
+	if tenant == "" {
+		http.Error(w, "tenant must be provided (api/{tenant Identifier}/...)", http.StatusBadRequest)
+		return "", errors.New("tenant not provided")
+	}
+	return tenant, nil
+}
+
+func okResponse(w http.ResponseWriter, content any) {
+	jsonResponse(w, http.StatusOK, content)
+}
+
+func emptyOkResponse(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusOK)
+}
+
+func createdResponse(w http.ResponseWriter, content any) {
+	jsonResponse(w, http.StatusCreated, content)
+}
+
+func badRequestResponse(w http.ResponseWriter, why string) {
+	http.Error(w, why, http.StatusBadRequest)
+}
+
+func internalServerErrorResponse(w http.ResponseWriter, why string) {
+	http.Error(w, why, http.StatusInternalServerError)
+}
+
+func jsonResponse(w http.ResponseWriter, statusCode int, content any) {
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(statusCode)
 	json.NewEncoder(w).Encode(content)
 }

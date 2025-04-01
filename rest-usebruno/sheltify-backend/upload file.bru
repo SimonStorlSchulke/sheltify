@@ -1,0 +1,19 @@
+meta {
+  name: upload file
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3000/api/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(/home/simon/Desktop/Screenshot_20250316_153238.jpg)
+}
+
+body:file {
+  file: @file(/home/simon/Desktop/vases_3.png) @contentType(image/png)
+}
