@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"sheltify-new-backend/repository"
+	"sheltify-new-backend/services"
 	"sheltify-new-backend/shtypes"
 )
 
@@ -34,7 +35,7 @@ func PatchAnimalById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Call repository function to update the animal
-	if animal, err := repository.UpdateAnimal(id, updates); err != nil {
+	if animal, err := repository.UpdateAnimalById(id, updates); err != nil {
 		internalServerErrorResponse(w, "Could not update animal")
 	} else {
 		okResponse(w, animal)
@@ -60,4 +61,25 @@ func DeleteAnimalsByIds(w http.ResponseWriter, r *http.Request) {
 	} else {
 		internalServerErrorResponse(w, fmt.Sprint("Failed deleting ids", failedForIds))
 	}
+}
+
+func SetAnimalPortrait(w http.ResponseWriter, r *http.Request) {
+	animalId, err := idFromParameter(w, r)
+	if err != nil {
+		return
+	}
+
+	mediaId := r.URL.Query().Get("mediaId")
+	if mediaId == "" {
+		badRequestResponse(w, "mediaId must be provided")
+		return
+	}
+
+	err = services.SetAnimalPortrait(animalId, mediaId)
+	if err != nil {
+		internalServerErrorResponse(w, "Failed to set animal portrait")
+		return
+	}
+
+	okResponse(w, "Animal portrait updated successfully")
 }

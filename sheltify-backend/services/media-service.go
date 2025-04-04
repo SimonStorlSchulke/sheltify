@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -155,5 +156,34 @@ func processImage(inputPath, outputDir, name, label string, width uint, aspectRa
 	}
 
 	fmt.Printf("Saved: %s\n", outputPath)
+	return nil
+}
+
+func AddTagToMedia(mediaID string, tagNames []string) error {
+	// Example implementation: Replace with actual database logic.
+	mediaFile, err := repository.GetMediaFileMetaById(mediaID)
+	if err != nil {
+		return err
+	}
+
+	var tags []*shtypes.Tag
+	for _, tagName := range tagNames {
+		tag, _ := repository.GetTagByName(tagName)
+		if tag == nil {
+			repository.CreateTag(&shtypes.Tag{Name: tagName, TenantID: "mfg"})
+			tags = append(tags, tag)
+		} else {
+			tags = append(tags, tag)
+		}
+	}
+
+	mediaFile.MediaTags = append(mediaFile.MediaTags, tags...)
+
+	err = repository.SaveMedia(mediaFile)
+
+	if err != nil {
+		return errors.New("failed to update media file with new tag")
+	}
+
 	return nil
 }

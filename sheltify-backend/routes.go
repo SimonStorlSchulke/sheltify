@@ -18,6 +18,7 @@ func animalRoutes(r *chi.Mux) {
 	r.Post("/api/animals", handlers.PostAnimal)
 	r.Patch("/api/animals/{id}", handlers.PatchAnimalById)
 	r.Delete("/api/animals", handlers.DeleteAnimalsByIds)
+	r.Patch("/api/animals/{id}/set-portrait", handlers.SetAnimalPortrait)
 }
 
 func animalArticleRoutes(r *chi.Mux) {

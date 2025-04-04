@@ -89,8 +89,8 @@ func CreateTag(w http.ResponseWriter, r *http.Request) {
 }
 
 type AddTagToMediaRequest struct {
-	MediaId string
-	tagIds  []int
+	MediaId  string
+	TagNames []string
 }
 
 func AddTagToMedia(w http.ResponseWriter, r *http.Request) {
@@ -99,9 +99,9 @@ func AddTagToMedia(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if repository.AddTagToMedia(request.MediaId, request.tagIds) != nil {
+	if services.AddTagToMedia(request.MediaId, request.TagNames) != nil {
 		internalServerErrorResponse(w, "Could not add mediatag to media")
 	} else {
-		createdResponse(w, tag)
+		emptyOkResponse(w)
 	}
 }

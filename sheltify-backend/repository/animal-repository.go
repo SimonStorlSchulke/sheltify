@@ -49,7 +49,7 @@ func GetTenantsAnimals(tenant string) (*[]shtypes.Animal, error) {
 	return &animals, nil
 }
 
-func UpdateAnimal(id int, updates map[string]interface{}) (*shtypes.Animal, error) {
+func UpdateAnimalById(id int, updates map[string]interface{}) (*shtypes.Animal, error) {
 	var animal shtypes.Animal
 	if err := db.First(&animal, id).Error; err != nil {
 		return nil, err
@@ -60,4 +60,11 @@ func UpdateAnimal(id int, updates map[string]interface{}) (*shtypes.Animal, erro
 	}
 
 	return &animal, nil
+}
+
+func SaveAnimal(animal *shtypes.Animal) error {
+	if err := db.Save(&animal).Error; err != nil {
+		return err
+	}
+	return nil
 }

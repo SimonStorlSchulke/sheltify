@@ -22,6 +22,8 @@ type Animal struct {
 	Gender          Gender
 	AnimalArticleID *uint
 	AnimalArticle   *AnimalArticle
+	PortraitID      string
+	Portrait        *MediaFile
 	TenantID        string
 	Tenant          *Tenant
 }
