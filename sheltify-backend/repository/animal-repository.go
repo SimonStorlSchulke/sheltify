@@ -12,7 +12,7 @@ func CreateAnimal(animal *shtypes.Animal) error {
 }
 
 func DeleteAnimal(id int) error {
-	return db.Delete(&shtypes.Animal{}, id).Error
+	return db.Unscoped().Delete(&shtypes.Animal{}, id).Error
 }
 
 func GetAnimal(id int) (*shtypes.Animal, error) {
@@ -50,13 +50,11 @@ func GetTenantsAnimals(tenant string) (*[]shtypes.Animal, error) {
 }
 
 func UpdateAnimal(id int, updates map[string]interface{}) (*shtypes.Animal, error) {
-	// Find the animal by ID
 	var animal shtypes.Animal
 	if err := db.First(&animal, id).Error; err != nil {
-		return nil, err // Return error if animal not found
+		return nil, err
 	}
 
-	// Apply partial updates using GORM's `Updates()`
 	if err := db.Model(&animal).Updates(updates).Error; err != nil {
 		return nil, err
 	}

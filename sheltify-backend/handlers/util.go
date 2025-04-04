@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -17,6 +18,24 @@ func idFromParameter(w http.ResponseWriter, r *http.Request) (int, error) {
 		return -1, err
 	}
 	return id, nil
+}
+
+// returns list of ids from comma separated queryparameter (?ids=1,2,3,4)
+func idsFromQuery(w http.ResponseWriter, r *http.Request) ([]int, error) {
+	idsStringParam := r.URL.Query().Get("ids")
+
+	idStrings := strings.Split(idsStringParam, ",")
+
+	ids := make([]int, len(idStrings))
+	for i, idString := range idStrings {
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			http.Error(w, "ids queryparam needs to be a comma-separated string of ids (eg. /api/animals?ids=1,2,3)", http.StatusBadRequest)
+			return nil, err
+		}
+		ids[i] = id
+	}
+	return ids, nil
 }
 
 func tenantFromParameter(w http.ResponseWriter, r *http.Request) (string, error) {

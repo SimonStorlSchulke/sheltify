@@ -16,19 +16,22 @@ const (
 
 type Animal struct {
 	gorm.Model
-	Name            string         `json:"name"`
-	Birthday        time.Time      `json:"birthday,omitempty"`
-	Castrated       bool           `json:"castrated"`
-	Gender          Gender         `json:"gender"`
-	AnimalArticleID *uint          `json:"animalArticleID"`
-	AnimalArticle   *AnimalArticle `json:"animalArticle"`
-	TenantID        string         `json:"tenantID"`
-	Tenant          *Tenant        `json:"tenant"`
+	Name            string
+	Birthday        *time.Time
+	Castrated       bool
+	Gender          Gender
+	AnimalArticleID *uint
+	AnimalArticle   *AnimalArticle
+	TenantID        string
+	Tenant          *Tenant
 }
 
 func (a Animal) Validate() error {
 	if a.Name == "" {
 		return errors.New("name is required")
+	}
+	if a.TenantID == "" {
+		return errors.New("must belong to a tenant")
 	}
 	if a.Gender != Male && a.Gender != Female {
 		return errors.New("gender must be Male or Female")

@@ -5,13 +5,18 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/api/upload
+  url: http://localhost:3000/api/media
   body: multipartForm
   auth: inherit
 }
 
 body:multipart-form {
-  file: @file(/home/simon/Desktop/Screenshot_20250316_153238.jpg)
+  file: @file(/home/simon/Desktop/katzen.jpg)
+  FocusX: 0.5
+  FocusY: 0.5
+  Description: ein katz
+  Title: Katze
+  TenantID: mfg
 }
 
 body:file {

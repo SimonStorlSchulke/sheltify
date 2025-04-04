@@ -6,10 +6,10 @@ import (
 
 type AnimalArticle struct {
 	gorm.Model
-	Title    string   `json:"title"`
-	Animals  []Animal `json:"animals"`
-	TenantID string   `json:"teantID"`
-	Tenant   Tenant   `json:"teant"`
+	Title    string
+	Animals  []Animal
+	TenantID string
+	Tenant   *Tenant
 }
 
 func (a AnimalArticle) Validate() error {

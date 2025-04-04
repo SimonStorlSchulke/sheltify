@@ -22,4 +22,5 @@ func init() {
 	}
 
 	migrations.Migrate(db)
+	//TODO use db-user with less privileges for everything but migrations
 }

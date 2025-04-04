@@ -1,0 +1,159 @@
+package services
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"mime/multipart"
+	"os"
+	"path/filepath"
+	"sheltify-new-backend/repository"
+	"sheltify-new-backend/shtypes"
+	"strings"
+	"sync"
+
+	"gopkg.in/gographics/imagick.v3/imagick"
+)
+
+func StoreMultiPartFile(multiPartFile multipart.File, savePath string) error {
+	fileBytes, err := io.ReadAll(multiPartFile)
+	if err != nil {
+		return err
+	}
+
+	err = os.MkdirAll("uploads", os.ModePerm)
+
+	if err != nil {
+		return err
+	}
+
+	storedFile, err := os.Create(savePath)
+	defer storedFile.Close()
+
+	_, err = storedFile.Write(fileBytes)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteMedia(id string) {
+	DeleteUploadsWithPrefix(id)
+	repository.DeleteMediaFileMeta(id)
+}
+
+func DeleteUploadsWithPrefix(prefix string) error {
+	files, err := os.ReadDir("uploads")
+	if err != nil {
+		return fmt.Errorf("failed to read directory: %w", err)
+	}
+
+	for _, file := range files {
+		if strings.HasPrefix(file.Name(), prefix) {
+			filePath := filepath.Join("uploads", file.Name())
+			if err := os.Remove(filePath); err != nil {
+				fmt.Printf("failed to delete file %s: %v\n", filePath, err)
+			} else {
+				fmt.Printf("deleted file: %s\n", filePath)
+			}
+		}
+	}
+	return nil
+}
+
+var imageSizes = map[string]uint{
+	"thumbnail": 150,
+	"small":     320,
+	"medium":    640,
+	"large":     1280,
+	"xlarge":    1920,
+}
+
+func GenerateImageSizes(media *shtypes.MediaFile) error {
+
+	mediaFilePath := filepath.Join("uploads", media.ID+filepath.Ext(media.OriginalFileName))
+
+	if _, err := os.Stat(mediaFilePath); os.IsNotExist(err) {
+		log.Fatalf("Error: File %s not found", mediaFilePath)
+	}
+
+	imagick.Initialize()
+	defer imagick.Terminate()
+
+	baseName := filepath.Base(mediaFilePath)
+	ext := filepath.Ext(baseName)
+	name := baseName[0 : len(baseName)-len(ext)]
+
+	mw := imagick.NewMagickWand()
+	err := mw.ReadImage(mediaFilePath)
+	if err != nil {
+		log.Fatalf("Failed to read input image: %v", err)
+	}
+	origWidth := mw.GetImageWidth()
+	origHeight := mw.GetImageHeight()
+	aspectRatio := float64(origHeight) / float64(origWidth)
+	mw.Destroy()
+
+	for label, width := range imageSizes {
+		if origWidth < width {
+			break
+		}
+		media.LargestAvailableSize = label
+	}
+
+	var wg sync.WaitGroup
+	for label, width := range imageSizes {
+		if origWidth < width {
+			continue
+		}
+		wg.Add(1)
+		go func(label string, width uint) {
+			defer wg.Done()
+			if err := processImage(mediaFilePath, "uploads", name, label, width, aspectRatio); err != nil {
+				log.Printf("Error processing %s: %v\n", label, err)
+			}
+		}(label, width)
+	}
+	err = repository.SetSizesGenerated(media)
+	if err != nil {
+		return err
+	}
+	wg.Wait()
+	os.Remove(mediaFilePath)
+	fmt.Println("Image processing completed successfully.")
+	return nil
+}
+
+func processImage(inputPath, outputDir, name, label string, width uint, aspectRatio float64) error {
+	mw := imagick.NewMagickWand()
+	defer mw.Destroy()
+
+	// Read the input image
+	err := mw.ReadImage(inputPath)
+	if err != nil {
+		return fmt.Errorf("failed to read image: %w", err)
+	}
+
+	height := uint(float64(width) * aspectRatio)
+
+	err = mw.ResizeImage(width, height, imagick.FILTER_LANCZOS)
+	if err != nil {
+		return fmt.Errorf("failed to resize image to %s: %w", label, err)
+	}
+
+	// Set format to WebP
+	mw.SetImageFormat("webp")
+	mw.SetOption("webp:lossless", "false")
+	mw.SetOption("webp:method", "6")
+	mw.SetOption("webp:alpha-quality", "75")
+	mw.SetImageCompressionQuality(92)
+
+	outputPath := filepath.Join(outputDir, fmt.Sprintf("%s_%s.webp", name, label))
+	err = mw.WriteImage(outputPath)
+	if err != nil {
+		return fmt.Errorf("failed to save %s image: %w", label, err)
+	}
+
+	fmt.Printf("Saved: %s\n", outputPath)
+	return nil
+}

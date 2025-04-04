@@ -17,7 +17,7 @@ func animalRoutes(r *chi.Mux) {
 	r.Get("/api/{tenant}/animals", handlers.GetTenantsAnimals)
 	r.Post("/api/animals", handlers.PostAnimal)
 	r.Patch("/api/animals/{id}", handlers.PatchAnimalById)
-	r.Delete("/api/animals/{id}", handlers.DeleteAnimalById)
+	r.Delete("/api/animals", handlers.DeleteAnimalsByIds)
 }
 
 func animalArticleRoutes(r *chi.Mux) {
@@ -25,5 +25,8 @@ func animalArticleRoutes(r *chi.Mux) {
 }
 
 func mediaRoutes(r *chi.Mux) {
-	r.Post("/api/upload", handlers.UploadFile)
+	r.Post("/api/media", handlers.UploadMedia)
+	r.Post("/api/tags", handlers.CreateTag)
+	r.Post("/api/tags/add-to-media", handlers.AddTagToMedia)
+	r.Delete("/api/media/{id}", handlers.DeleteMedia)
 }

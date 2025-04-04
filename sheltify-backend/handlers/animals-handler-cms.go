@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sheltify-new-backend/repository"
 	"sheltify-new-backend/shtypes"
@@ -40,17 +41,23 @@ func PatchAnimalById(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteAnimalById(w http.ResponseWriter, r *http.Request) {
-	//TODO get logged in tenant and error if tenant doesn't own animal
+func DeleteAnimalsByIds(w http.ResponseWriter, r *http.Request) {
+	ids, err := idsFromQuery(w, r)
+	if err != nil {
+		return
+	}
 
-	id, err := idFromParameter(w, r)
-	if err != nil {
-		return
+	failedForIds := make([]int, 0)
+	for _, id := range ids {
+		err = repository.DeleteAnimal(id)
+		if err != nil {
+			failedForIds = append(failedForIds, id)
+		}
 	}
-	err = repository.DeleteAnimal(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+
+	if len(failedForIds) == 0 {
+		emptyOkResponse(w)
+	} else {
+		internalServerErrorResponse(w, fmt.Sprint("Failed deleting ids", failedForIds))
 	}
-	w.WriteHeader(http.StatusOK)
 }

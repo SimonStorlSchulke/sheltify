@@ -1,20 +1,18 @@
 package handlers
 
 import (
-	"fmt"
-	"io"
 	"net/http"
-	"os"
 	"path/filepath"
 	"sheltify-new-backend/repository"
+	"sheltify-new-backend/services"
 	"sheltify-new-backend/shtypes"
 	"strconv"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 )
 
-func UploadFile(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("File Upload Endpoint Hit")
+func UploadMedia(w http.ResponseWriter, r *http.Request) {
 
 	// upload 25 MB max
 	r.ParseMultipartForm(25 << 20)
@@ -25,24 +23,10 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	defer uploadedFile.Close()
 
-	filename := uuid.NewString() + filepath.Ext(handler.Filename)
+	uuid := uuid.NewString()
+	extension := filepath.Ext(handler.Filename)
+	filename := uuid + extension
 	savePath := filepath.Join("uploads", filename)
-	err = os.MkdirAll("uploads", os.ModePerm)
-	tempFile, err := os.Create(savePath)
-
-	if err != nil {
-		internalServerErrorResponse(w, err.Error())
-		return
-	}
-	defer tempFile.Close()
-
-	fileBytes, err := io.ReadAll(uploadedFile)
-	if err != nil {
-		internalServerErrorResponse(w, err.Error())
-		return
-	}
-	// write this byte array to our temporary file
-	tempFile.Write(fileBytes)
 
 	focusX, err := strconv.ParseFloat(r.FormValue("FocusX"), 32)
 	focusY, err := strconv.ParseFloat(r.FormValue("FocusY"), 32)
@@ -52,18 +36,72 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := shtypes.MediaFile{
-		FileName:    filename,
-		Name:        r.FormValue("Name"),
-		Description: r.FormValue("Description"),
-		FocusX:      float32(focusX),
-		FocusY:      float32(focusY),
+	entity := shtypes.MediaFile{
+		ID:               uuid,
+		OriginalFileName: handler.Filename,
+		Title:            r.FormValue("Title"),
+		Description:      r.FormValue("Description"),
+		FocusX:           float32(focusX),
+		FocusY:           float32(focusY),
+		TenantID:         r.FormValue("TenantID"),
 	}
 
-	err = repository.StoreMediaFileMeta(&response)
+	err = entity.Validate()
+	if err != nil {
+		badRequestResponse(w, err.Error())
+		return
+	}
+
+	err = repository.CreateMediaFileMeta(&entity)
 	if err != nil {
 		internalServerErrorResponse(w, "Failed to store Metadata")
 		return
 	}
-	okResponse(w, response)
+
+	err = services.StoreMultiPartFile(uploadedFile, savePath)
+	if err != nil {
+		internalServerErrorResponse(w, err.Error())
+		repository.DeleteMediaFileMeta(uuid)
+		return
+	}
+
+	createdResponse(w, entity)
+	services.GenerateImageSizes(&entity)
+}
+
+func DeleteMedia(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	if id == "" {
+		badRequestResponse(w, "media id must be provided")
+		return
+	}
+	services.DeleteMedia(id)
+}
+
+func CreateTag(w http.ResponseWriter, r *http.Request) {
+	tag := parseRequestBody[shtypes.Tag](w, r)
+	if repository.CreateTag(tag) != nil {
+		internalServerErrorResponse(w, "Could not create mediatag")
+	} else {
+		createdResponse(w, tag)
+	}
+}
+
+type AddTagToMediaRequest struct {
+	MediaId string
+	tagIds  []int
+}
+
+func AddTagToMedia(w http.ResponseWriter, r *http.Request) {
+	request := parseRequestBody[AddTagToMediaRequest](w, r)
+	if request == nil {
+		return
+	}
+
+	if repository.AddTagToMedia(request.MediaId, request.tagIds) != nil {
+		internalServerErrorResponse(w, "Could not add mediatag to media")
+	} else {
+		createdResponse(w, tag)
+	}
 }
