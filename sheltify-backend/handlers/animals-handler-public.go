@@ -6,7 +6,7 @@ import (
 	"sheltify-new-backend/repository"
 )
 
-func GetAnimal(w http.ResponseWriter, r *http.Request) {
+func GetAnimalById(w http.ResponseWriter, r *http.Request) {
 	id, err := idFromParameter(w, r)
 	if err != nil {
 		return

@@ -22,7 +22,7 @@ type Animal struct {
 	Gender          Gender
 	AnimalArticleID *uint
 	AnimalArticle   *AnimalArticle
-	PortraitID      string
+	PortraitID      *string
 	Portrait        *MediaFile
 	TenantID        string
 	Tenant          *Tenant

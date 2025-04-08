@@ -9,7 +9,7 @@ import (
 	"sheltify-new-backend/shtypes"
 )
 
-func PostAnimal(w http.ResponseWriter, r *http.Request) {
+func CreateAnimal(w http.ResponseWriter, r *http.Request) {
 	//TODO get logged in tenant and assign it automatically
 	animal := validateRequestBody[shtypes.Animal](w, r)
 	if repository.CreateAnimal(animal) != nil {
@@ -19,7 +19,7 @@ func PostAnimal(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func PatchAnimalById(w http.ResponseWriter, r *http.Request) {
+func UpdateAnimalById(w http.ResponseWriter, r *http.Request) {
 	//TODO get logged in tenant and error if tenant doesn't own animal
 
 	// Extract animal ID from the request (assuming it's in the URL)
