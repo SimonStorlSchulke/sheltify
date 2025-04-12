@@ -11,4 +11,5 @@ func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&shtypes.AnimalArticle{})
 	db.AutoMigrate(&shtypes.MediaFile{})
 	db.AutoMigrate(&shtypes.Tag{})
+	db.AutoMigrate(&shtypes.User{})
 }
