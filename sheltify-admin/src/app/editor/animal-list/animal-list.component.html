@@ -5,13 +5,31 @@
 
 </div>
 
-<div class="animals sui flex-x wrap">
+<div class="animals sui flex-y wrap gap-3">
   @if ($animals | async; as animals) {
-    @for (animal of animals.results; track $index) {
-      <a [routerLink]="'/tiere/' + animal.documentId" class="entry sui flex-x ai-center gap-4">
-        <img [src]="animal.thumbnail | strapiMedia : 'thumbnail'">
-        <span>{{ animal.name }}</span>
-      </a>
-    }
+    <table>
+      <thead>
+      <tr>
+        <th>Bild</th>
+        <th>Name</th>
+        <th>Geboren</th>
+        <th>erstellt</th>
+        <th>modifiziert</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (animal of animals.results; track $index) {
+          <tr class="entry" (click)="toAnimal(animal.ID)">
+              <td><div class="img-wrapper"><img [src]="animal.Portrait | cmsMedia : 'thumbnail'"></div></td>
+              <td>{{ animal.Name }}</td>
+              <td>{{ animal.Birthday | date: 'dd.MM.yyyy' }}</td>
+              <td>{{ animal.CreatedAt | date: 'dd.MM.yyyy' }}</td>
+              <td>{{ animal.UpdatedAt | date: 'dd.MM.yyyy' }}</td>
+              <td><button class="secondary">Löschen</button></td>
+          </tr>
+        }
+      </tbody>
+    </table>
   }
 </div>

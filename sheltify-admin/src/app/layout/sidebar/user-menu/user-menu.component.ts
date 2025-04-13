@@ -1,6 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { StrapiAuthService } from '../../../services/strapi-auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { AsyncPipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-menu',
@@ -12,11 +14,13 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './user-menu.component.scss'
 })
 export class UserMenuComponent implements OnInit {
-  strapiAuthService = inject(StrapiAuthService);
+  authService = inject(AuthService);
+  private toastrService = inject(ToastrService);
+  private router = inject(Router);
 
-  user$ = this.strapiAuthService.user$;
+  user$ = this.authService.user$;
 
   ngOnInit() {
-    this.strapiAuthService.reLogin()
+
   }
 }

@@ -1,23 +1,26 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { StrapiRequestService } from '../../services/strapi-request.service';
-import { Animal } from '../../../../../sheltify-access/projects/sheltify-access/src/types/types';
-import { AsyncPipe } from '@angular/common';
-import { StrapiMediaPipe } from '../../../../../sheltify-access/projects/sheltify-access/src/lib/strapi-image.pipe';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { CmsRequestService } from '../../services/cms-request.service';
+import { AsyncPipe, DatePipe } from '@angular/common';
+import { RouterLink, Router } from '@angular/router';
+import { CmsMediaPipe } from '@sheltify-lib/cms-image.pipe';
 
 @Component({
   selector: 'app-animal-list',
   standalone: true,
   imports: [
     AsyncPipe,
-    StrapiMediaPipe,
-    RouterLink,
+    CmsMediaPipe,
+    DatePipe,
   ],
   templateUrl: './animal-list.component.html',
   styleUrl: './animal-list.component.scss'
 })
 export class AnimalListComponent {
-  private strapiRequestService = inject(StrapiRequestService);
+  private cmsRequestService = inject(CmsRequestService);
+  private router = inject(Router);
+  $animals = this.cmsRequestService.getTenantsAnimals();
 
-  $animals = this.strapiRequestService.getCollection<Animal>("animal");
+  toAnimal(id: number) {
+    this.router.navigate([`/tiere/${id}`]);
+  }
 }

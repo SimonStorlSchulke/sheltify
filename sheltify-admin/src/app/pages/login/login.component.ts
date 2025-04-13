@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { StrapiAuthService } from '../../services/strapi-auth.service';
+import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -10,14 +10,14 @@ import { Router } from '@angular/router';
   standalone: true,
 })
 export class LoginComponent {
-  private strapiAuthService = inject(StrapiAuthService);
+  private authService = inject(AuthService);
   private toastrService = inject(ToastrService);
   private router = inject(Router);
 
-  onLogin(email: string, password: string): void {
-    this.strapiAuthService.login(email, password).subscribe({
+  onLogin(username: string, password: string): void {
+    this.authService.login(username, password).subscribe({
       next: (response) => {
-        this.toastrService.success("Logged in as " + response.data.user.email);
+        this.toastrService.success("Logged in as " + response.ID);
         this.router.navigate(["dashboard"]);
       },
       error: (err) => {
