@@ -3,7 +3,6 @@ package handlers
 import (
 	"net/http"
 	"sheltify-new-backend/services"
-	"sheltify-new-backend/shtypes"
 )
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -32,9 +31,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func Logout(w http.ResponseWriter, r *http.Request) {
 
-	user := userFromContext(w, r)
+	user := services.UserFromContext(r)
 
 	if user == nil {
+		http.Error(w, "User not found in context", http.StatusUnauthorized)
 		return
 	}
 
@@ -43,17 +43,13 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	emptyOkResponse(w)
 }
 
-func userFromContext(w http.ResponseWriter, r *http.Request) *shtypes.User {
-	userValue := r.Context().Value("user")
-	if userValue == nil {
-		http.Error(w, "User not found in context", http.StatusUnauthorized)
-		return nil
+func Relogin(w http.ResponseWriter, r *http.Request) {
+	user := services.UserFromContext(r)
+
+	if user == nil {
+		http.Error(w, "no logged in user found", http.StatusUnauthorized)
+		return
 	}
 
-	user, ok := userValue.(*shtypes.User)
-	if !ok {
-		http.Error(w, "Invalid user in context", http.StatusInternalServerError)
-		return nil
-	}
-	return user
+	okResponse(w, user)
 }

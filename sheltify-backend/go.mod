@@ -11,6 +11,7 @@ require (
 require github.com/joho/godotenv v1.5.1
 
 require (
+	github.com/go-chi/cors v1.2.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/markbates/goth v1.81.0 // indirect
 	golang.org/x/oauth2 v0.17.0 // indirect

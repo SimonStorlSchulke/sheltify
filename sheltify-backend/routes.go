@@ -1,61 +1,43 @@
 package main
 
 import (
-	"net/http"
 	"sheltify-new-backend/handlers"
 
 	"github.com/go-chi/chi/v5"
 )
 
 func initRoutes(r *chi.Mux) {
-	animalRoutes(r)
-	animalArticleRoutes(r)
-	mediaRoutes(r)
-	authRoutes(r)
+	r.Post("/admin/api/register", handlers.Register)
+	r.Post("/admin/api/login", handlers.Login)
+
+	rPublicApi := chi.NewRouter()
+	publicRoutes(rPublicApi)
+	r.Mount("/api", rPublicApi)
+
+	rAdminApi := chi.NewRouter()
+	rAdminApi.Use(handlers.AuthMiddleware)
+	adminRoutes(rAdminApi)
+	r.Mount("/admin/api", rAdminApi)
 }
 
-func animalRoutes(r *chi.Mux) {
-	r.Get("/api/{tenant}/animals/{id}", handlers.GetAnimalById)
-	r.Get("/api/{tenant}/animals", handlers.GetAnimals)
-	WithAuth(r).Post("/api/{tenant}/animals", handlers.CreateAnimal)
-	WithAuth(r).Patch("/api/{tenant}/animals/{id}", handlers.UpdateAnimalById)
-	WithAuth(r).Delete("/api/{tenant}/animals", handlers.DeleteAnimalsByIds)
-	WithAuth(r).Patch("/api/{tenant}/animals/{id}/set-portrait", handlers.SetAnimalPortrait)
+func publicRoutes(r *chi.Mux) {
+	r.Get("/{tenant}/animals/{id}", handlers.GetAnimalById)
+	r.Get("/{tenant}/animals", handlers.GetTenantsAnimals)
+
+	r.Get("/animal-articles/{name}", handlers.GetAnimalArticleByName)
 }
 
-func animalArticleRoutes(r *chi.Mux) {
-	r.Get("/api/{tenant}/animal-articles/{name}", handlers.GetAnimalArticleByName)
-}
+func adminRoutes(r *chi.Mux) {
+	r.Post("/animals", handlers.CreateAnimal)
+	r.Patch("/animals/{id}", handlers.UpdateAnimalById)
+	r.Delete("/animals", handlers.DeleteAnimalsByIds)
+	r.Patch("/animals/{id}/set-portrait", handlers.SetAnimalPortrait)
 
-func mediaRoutes(r *chi.Mux) {
-	WithAuth(r).Post("/api/{tenant}/media", handlers.UploadMedia)
-	WithAuth(r).Post("/api/{tenant}/tags", handlers.CreateTag)
-	WithAuth(r).Post("/api/{tenant}/tags/add-to-media", handlers.AddTagToMedia)
-	WithAuth(r).Delete("/api/{tenant}/media/{id}", handlers.DeleteMedia)
-}
+	r.Post("/media", handlers.UploadMedia)
+	r.Post("/tags", handlers.CreateTag)
+	r.Post("/tags/add-to-media", handlers.AddTagToMedia)
+	r.Delete("/media/{id}", handlers.DeleteMedia)
 
-func authRoutes(r *chi.Mux) {
-	r.Post("/register", handlers.Register)
-	r.Post("/login", handlers.Login)
-	WithAuth(r).Get("/logout", handlers.Logout)
-}
-
-func get(r *chi.Mux, pattern string, handlerFn http.HandlerFunc) {
-	r.Get("/api/{tenant}/"+pattern, handlerFn)
-}
-
-func post(r *chi.Mux, pattern string, handlerFn http.HandlerFunc) {
-	r.Post("/api/{tenant}/"+pattern, handlerFn)
-}
-
-func patch(r *chi.Mux, pattern string, handlerFn http.HandlerFunc) {
-	r.Patch("/api/{tenant}/"+pattern, handlerFn)
-}
-
-func delete(r *chi.Mux, pattern string, handlerFn http.HandlerFunc) {
-	r.Delete("/api/{tenant}/"+pattern, handlerFn)
-}
-
-func WithAuth(r *chi.Mux) chi.Router {
-	return r.With(handlers.AuthMiddleware)
+	r.Get("/logout", handlers.Logout)
+	r.Get("/relogin", handlers.Relogin)
 }

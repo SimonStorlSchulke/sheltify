@@ -1,8 +1,6 @@
 package shtypes
 
 import (
-	"errors"
-
 	"gorm.io/gorm"
 )
 
@@ -15,8 +13,5 @@ type Tag struct {
 }
 
 func (m Tag) Validate() error {
-	if m.TenantID == "" {
-		return errors.New("must belong to a tenant")
-	}
 	return nil
 }

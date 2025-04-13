@@ -28,15 +28,16 @@ type Animal struct {
 	Tenant          *Tenant
 }
 
-func (a Animal) Validate() error {
+func (a *Animal) Validate() error {
 	if a.Name == "" {
 		return errors.New("name is required")
-	}
-	if a.TenantID == "" {
-		return errors.New("must belong to a tenant")
 	}
 	if a.Gender != Male && a.Gender != Female {
 		return errors.New("gender must be Male or Female")
 	}
 	return nil
+}
+
+func (a *Animal) SetTenantId(id string) {
+	a.TenantID = id
 }

@@ -89,3 +89,39 @@ export type Animal = {
 
 export type AnimalStatusName = "in-spaichingen" | "in-bulgarien" | "vermittlungshilfe" | "zuhause-gefunden" | "vermisst" | "fundtier";
 
+// New CMS types
+export type TempTypeAnimal = {
+  ID: number
+  CreatedAt: string
+  UpdatedAt: string
+  DeletedAt: any
+  Name: string
+  Birthday: string
+  Castrated: boolean
+  Gender: string
+  AnimalArticleID?: number
+  AnimalArticle: any
+  PortraitID: string
+  Portrait: any
+  TenantID: string
+  Tenant: any //TODO
+}
+
+export type CmsImagesSize = 'thumbnail' | 'small' | 'medium' | 'large' | 'xlarge';
+
+export type CmsImage = {
+  CreatedAt: string
+  UpdatedAt: string
+  DeletedAt: any
+  ID: string
+  OriginalFileName: string
+  Title: string
+  Description: string
+  FocusX: number
+  FocusY: number
+  SizesGenerated: boolean
+  LargestAvailableSize: 'thumbnail' | 'small' | 'medium' | 'large' | 'xlarge'
+  MediaTags: any
+  TenantID: string
+  Tenant: any //TODO
+}

@@ -58,6 +58,5 @@ func GetTenantsAnimals(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	fmt.Println(animal)
 	okResponse(w, animal)
 }

@@ -1,8 +1,6 @@
 package shtypes
 
 import (
-	"errors"
-
 	"gorm.io/gorm"
 )
 
@@ -22,8 +20,5 @@ type MediaFile struct {
 }
 
 func (m MediaFile) Validate() error {
-	if m.TenantID == "" {
-		return errors.New("must belong to a tenant")
-	}
 	return nil
 }

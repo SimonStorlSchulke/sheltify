@@ -67,6 +67,10 @@ func Login(w http.ResponseWriter, userId string, password string) *shtypes.User 
 		http.Error(w, "login failed", http.StatusInternalServerError)
 		return nil
 	}
+
+	//Don't include tokens in response!
+	user.SessionToken = nil
+	user.CsrfToken = nil
 	return user
 }
 
@@ -105,9 +109,11 @@ func GenerateToken(length int) string {
 }
 
 func Set24hCookie(w http.ResponseWriter, name string, value string, httpOnly bool) {
+	log.Println("Set Cookie" + value)
 	http.SetCookie(w, &http.Cookie{
 		Name:     name,
 		Value:    value,
+		Path:     "/",
 		Expires:  time.Now().Add(24 * time.Hour),
 		HttpOnly: httpOnly,
 	})
@@ -117,6 +123,7 @@ func ClearCookie(w http.ResponseWriter, name string, httpOnly bool) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     name,
 		Value:    "",
+		Path:     "/",
 		Expires:  time.Now().Add(-time.Hour),
 		HttpOnly: httpOnly,
 	})
@@ -138,9 +145,23 @@ func Authorize(r *http.Request) (*shtypes.User, error) {
 
 	user, err := repository.GetUser(userId.Value)
 
-	if err != nil || *user.SessionToken != sessionToken.Value || *user.CsrfToken != csfrToken.Value {
+	if err != nil ||
+		user.SessionToken == nil || *user.SessionToken != sessionToken.Value ||
+		user.CsrfToken == nil || *user.CsrfToken != csfrToken.Value {
 		return nil, AuthError
 	}
 	return user, nil
+}
 
+func UserFromContext(r *http.Request) *shtypes.User {
+	userValue := r.Context().Value("user")
+	if userValue == nil {
+		return nil
+	}
+
+	user, ok := userValue.(*shtypes.User)
+	if !ok {
+		return nil
+	}
+	return user
 }

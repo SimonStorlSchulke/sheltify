@@ -10,8 +10,9 @@ import (
 )
 
 func CreateAnimal(w http.ResponseWriter, r *http.Request) {
-	//TODO get logged in tenant and assign it automatically
-	animal := validateRequestBody[shtypes.Animal](w, r)
+
+	animal := validateRequestBody[*shtypes.Animal](w, r, services.UserFromContext(r))
+
 	if repository.CreateAnimal(animal) != nil {
 		internalServerErrorResponse(w, "Could not create animal")
 	} else {
