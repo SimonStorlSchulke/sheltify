@@ -7,14 +7,13 @@ import { AsyncPipe } from '@angular/common';
 import { catchError, retry, of } from 'rxjs';
 
 @Component({
-  selector: 'app-animal-editor',
-  standalone: true,
-  imports: [
-    TextInputComponent,
-    AsyncPipe
-  ],
-  templateUrl: './animal-editor.component.html',
-  styleUrl: './animal-editor.component.scss'
+    selector: 'app-animal-editor',
+    imports: [
+        TextInputComponent,
+        AsyncPipe
+    ],
+    templateUrl: './animal-editor.component.html',
+    styleUrl: './animal-editor.component.scss'
 })
 export class AnimalEditorComponent {
 

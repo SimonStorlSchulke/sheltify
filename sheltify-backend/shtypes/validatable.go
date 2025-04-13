@@ -1,6 +1,6 @@
 package shtypes
 
 type Validatable interface {
-	Validate() error
+	Validate() string
 	SetTenantId(id string)
 }

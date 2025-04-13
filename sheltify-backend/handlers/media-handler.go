@@ -46,8 +46,8 @@ func UploadMedia(w http.ResponseWriter, r *http.Request) {
 		TenantID:         r.FormValue("TenantID"),
 	}
 
-	err = entity.Validate()
-	if err != nil {
+	errMessage := entity.Validate()
+	if errMessage != "" {
 		badRequestResponse(w, err.Error())
 		return
 	}

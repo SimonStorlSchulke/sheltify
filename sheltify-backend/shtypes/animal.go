@@ -1,41 +1,37 @@
 package shtypes
 
 import (
-	"errors"
 	"time"
 
 	"gorm.io/gorm"
 )
 
-type Gender string
-
-const (
-	Male   Gender = "Male"
-	Female Gender = "Female"
-)
-
 type Animal struct {
 	gorm.Model
-	Name            string
-	Birthday        *time.Time
-	Castrated       bool
-	Gender          Gender
-	AnimalArticleID *uint
-	AnimalArticle   *AnimalArticle
-	PortraitID      *string
-	Portrait        *MediaFile
-	TenantID        string
-	Tenant          *Tenant
+	Name             string
+	Birthday         *time.Time
+	WeightKg         uint
+	ShoulderHeightCm uint
+	Castrated        bool
+	Gender           string
+	Description      string
+	Patrons          string
+	Status           string //TODO possible values could be tenant specific?
+	Health           string
+	Priority         int
+	AnimalArticleID  *uint
+	AnimalArticle    *AnimalArticle
+	PortraitID       *string
+	Portrait         *MediaFile
+	TenantID         string
+	Tenant           *Tenant
 }
 
-func (a *Animal) Validate() error {
-	if a.Name == "" {
-		return errors.New("name is required")
-	}
-	if a.Gender != Male && a.Gender != Female {
-		return errors.New("gender must be Male or Female")
-	}
-	return nil
+func (a *Animal) Validate() string {
+	return valMinMaxLength("Name", a.Name, 2, 32) +
+		valIsInList("Gender", a.Gender, []string{"male", "female"}) +
+		valMaxLength("Description", a.Description, 500) +
+		valNotEmpty("Status", a.Status)
 }
 
 func (a *Animal) SetTenantId(id string) {

@@ -6,13 +6,10 @@ import { Schema, NodeSpec } from 'prosemirror-model';
 import { schema } from 'ngx-editor/schema';
 
 @Component({
-  selector: 'app-text-editor',
-  standalone: true,
-  imports: [NgxEditorModule, FormsModule],
-
-
-  templateUrl: './text-editor.component.html',
-  styleUrl: './text-editor.component.scss',
+    selector: 'app-text-editor',
+    imports: [NgxEditorModule, FormsModule],
+    templateUrl: './text-editor.component.html',
+    styleUrl: './text-editor.component.scss'
 })
 export class TextEditorComponent {
   editor: Editor;

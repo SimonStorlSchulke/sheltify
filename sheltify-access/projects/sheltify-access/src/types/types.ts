@@ -91,20 +91,23 @@ export type AnimalStatusName = "in-spaichingen" | "in-bulgarien" | "vermittlungs
 
 // New CMS types
 export type TempTypeAnimal = {
-  ID: number
-  CreatedAt: string
-  UpdatedAt: string
-  DeletedAt: any
-  Name: string
-  Birthday: string
-  Castrated: boolean
-  Gender: string
-  AnimalArticleID?: number
-  AnimalArticle: any
-  PortraitID: string
-  Portrait: any
-  TenantID: string
-  Tenant: any //TODO
+  Name: string;
+  Birthday?: string;
+  WeightKg: number;
+  ShoulderHeightCm: number;
+  Castrated: boolean;
+  Gender: "male" | "female";
+  Description: string;
+  Patrons: string;
+  Status: string;
+  Health: string;
+  Priority: number;
+  AnimalArticleID?: number;
+  //AnimalArticle?: AnimalArticle;
+  PortraitID?: string;
+  Portrait?: CmsImage;
+  TenantID: string;
+  //Tenant?: Tenant;
 }
 
 export type CmsImagesSize = 'thumbnail' | 'small' | 'medium' | 'large' | 'xlarge';

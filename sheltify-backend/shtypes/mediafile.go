@@ -19,6 +19,6 @@ type MediaFile struct {
 	Tenant               *Tenant
 }
 
-func (m MediaFile) Validate() error {
-	return nil
+func (m MediaFile) Validate() string {
+	return ""
 }

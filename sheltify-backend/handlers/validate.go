@@ -20,8 +20,8 @@ func validateRequestBody[K shtypes.Validatable](w http.ResponseWriter, r *http.R
 		return zero
 	}
 
-	if err := content.Validate(); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	if errMessage := content.Validate(); errMessage != "" {
+		http.Error(w, errMessage, http.StatusBadRequest)
 		return zero
 	}
 

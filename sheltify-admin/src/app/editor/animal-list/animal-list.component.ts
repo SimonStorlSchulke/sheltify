@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CmsRequestService } from '../../services/cms-request.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CmsMediaPipe } from '@sheltify-lib/cms-image.pipe';
 
 @Component({
   selector: 'app-animal-list',
-  standalone: true,
   imports: [
     AsyncPipe,
     CmsMediaPipe,

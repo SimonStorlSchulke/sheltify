@@ -5,13 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user-menu',
-  standalone: true,
-  imports: [
-    AsyncPipe
-  ],
-  templateUrl: './user-menu.component.html',
-  styleUrl: './user-menu.component.scss'
+    selector: 'app-user-menu',
+    imports: [
+        AsyncPipe
+    ],
+    templateUrl: './user-menu.component.html',
+    styleUrl: './user-menu.component.scss'
 })
 export class UserMenuComponent implements OnInit {
   authService = inject(AuthService);
