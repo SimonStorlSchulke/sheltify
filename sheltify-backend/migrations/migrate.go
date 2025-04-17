@@ -7,9 +7,15 @@ import (
 )
 
 func Migrate(db *gorm.DB) {
-	db.AutoMigrate(&shtypes.Animal{})
-	db.AutoMigrate(&shtypes.AnimalArticle{})
-	db.AutoMigrate(&shtypes.MediaFile{})
-	db.AutoMigrate(&shtypes.Tag{})
-	db.AutoMigrate(&shtypes.User{})
+	db.AutoMigrate(
+		&shtypes.Animal{},
+		&shtypes.AnimalArticle{},
+		&shtypes.MediaFile{},
+		&shtypes.Tag{},
+		&shtypes.User{},
+		&shtypes.Article{},
+		&shtypes.ArticleSection{},
+		&shtypes.TextSection{},
+		&shtypes.MediaSection{},
+	)
 }
